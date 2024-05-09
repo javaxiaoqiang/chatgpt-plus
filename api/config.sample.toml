@@ -65,15 +65,15 @@ WeChatBot = false
        Domain = ""
 
 [[MjProxyConfigs]]
-  Enabled = true
+  Enabled = false
   ApiURL = "http://midjourney-proxy:8082"
   ApiKey = "sk-geekmaster"
 
 [[MjPlusConfigs]]
-  Enabled = false
+  Enabled = true
   ApiURL = "https://api.chat-plus.net"
   Mode = "fast" # MJ 绘画模式，可选值 relax/fast/turbo
-  ApiKey = "sk-xxx"
+  ApiKey = "sk-dQ4HBdydSBBdgHfgB4AeD1B02d924349Be516491C43c3d5b"
 
 [[SdConfigs]]
   Enabled = false

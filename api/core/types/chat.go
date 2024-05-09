@@ -109,3 +109,27 @@ const (
 	PowerSub = PowerMark(0)
 	PowerAdd = PowerMark(1)
 )
+
+// 定义一个结构体来匹配JSON结构
+type Usage struct {
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
+}
+
+type ModelResponse struct {
+	ID      string   `json:"id"`
+	Created int      `json:"created"`
+	Model   string   `json:"model"`
+	Choices []Choice `json:"choices"`
+	//Usage   Usage    `json:"usage"`
+}
+
+type Choice struct {
+	Index        int    `json:"index"`
+	FinishReason string `json:"finish_reason"`
+	Delta        struct {
+		Role    string `json:"role"`
+		Content string `json:"content"`
+	} `json:"delta"`
+}

@@ -31,6 +31,7 @@ func (h *ChatHandler) sendChatGLMMessage(
 	promptCreatedAt := time.Now() // 记录提问时间
 	start := time.Now()
 	var apiKey = model.ApiKey{}
+
 	response, err := h.doRequest(ctx, req, session.Model.Platform, &apiKey)
 	logger.Info("HTTP请求完成，耗时：", time.Now().Sub(start))
 	if err != nil {
@@ -52,48 +53,80 @@ func (h *ChatHandler) sendChatGLMMessage(
 	}
 
 	contentType := response.Header.Get("Content-Type")
+	//text/event-stream 、 application/json
 	if strings.Contains(contentType, "text/event-stream") {
 		replyCreatedAt := time.Now() // 记录回复时间
 		// 循环读取 Chunk 消息
 		var message = types.Message{}
 		var contents = make([]string, 0)
-		var event, content string
+		var content string
 		scanner := bufio.NewScanner(response.Body)
 		for scanner.Scan() {
 			line := scanner.Text()
 			if len(line) < 5 || strings.HasPrefix(line, "id:") {
 				continue
 			}
-			if strings.HasPrefix(line, "event:") {
-				event = line[6:]
-				continue
-			}
+			//if strings.HasPrefix(line, "event:") {
+			//	event = line[6:]
+			//	continue
+			//}
 
 			if strings.HasPrefix(line, "data:") {
 				content = line[5:]
+				if content != "[DONE]" {
+
+					if len(contents) == 0 {
+						utils.ReplyChunkMessage(ws, types.WsMessage{Type: types.WsStart})
+					}
+
+					var response types.ModelResponse
+					if err := json.Unmarshal([]byte(content), &response); err != nil {
+						fmt.Println("Error parsing JSON:", err)
+					}
+
+					// 检查choices切片的长度是否大于0
+					if len(response.Choices) > 0 {
+						content = response.Choices[0].Delta.Content
+						//fmt.Println("contentTemp", content)
+						contents = append(contents, content)
+						//fmt.Println("Content:", content)
+					} else {
+						fmt.Println("No content found.")
+					}
+
+					utils.ReplyChunkMessage(ws, types.WsMessage{
+						Type:    types.WsMiddle,
+						Content: utils.InterfaceToString(content),
+					})
+
+				} else if content == "[DONE]" {
+					break
+				}
 			}
+
 			// 处理代码换行
 			if len(content) == 0 {
 				content = "\n"
 			}
-			switch event {
-			case "add":
-				if len(contents) == 0 {
-					utils.ReplyChunkMessage(ws, types.WsMessage{Type: types.WsStart})
-				}
-				utils.ReplyChunkMessage(ws, types.WsMessage{
-					Type:    types.WsMiddle,
-					Content: utils.InterfaceToString(content),
-				})
-				contents = append(contents, content)
-			case "finish":
-				break
-			case "error":
-				utils.ReplyMessage(ws, fmt.Sprintf("**调用 ChatGLM API 出错：%s**", content))
-				break
-			case "interrupted":
-				utils.ReplyMessage(ws, "**调用 ChatGLM API 出错，当前输出被中断！**")
-			}
+
+			//switch event {
+			//case "add":
+			//	if len(contents) == 0 {
+			//		utils.ReplyChunkMessage(ws, types.WsMessage{Type: types.WsStart})
+			//	}
+			//	utils.ReplyChunkMessage(ws, types.WsMessage{
+			//		Type:    types.WsMiddle,
+			//		Content: utils.InterfaceToString(content),
+			//	})
+			//	contents = append(contents, content)
+			//case "finish":
+			//	break
+			//case "error":
+			//	utils.ReplyMessage(ws, fmt.Sprintf("**调用 ChatGLM API 出错：%s**", content))
+			//	break
+			//case "interrupted":
+			//	utils.ReplyMessage(ws, "**调用 ChatGLM API 出错，当前输出被中断！**")
+			//}
 
 		} // end for
 
@@ -111,6 +144,7 @@ func (h *ChatHandler) sendChatGLMMessage(
 				message.Role = "assistant"
 			}
 			message.Content = strings.Join(contents, "")
+			//fmt.Println("message.Content", message.Content)
 			useMsg := types.Message{Role: "user", Content: prompt}
 
 			// 更新上下文消息，如果是调用函数则不需要更新上下文

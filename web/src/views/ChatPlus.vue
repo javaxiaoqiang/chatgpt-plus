@@ -42,8 +42,9 @@
         <div class="tool-box">
           <el-dropdown :hide-on-click="true" class="user-info" trigger="click" v-if="isLogin">
                         <span class="el-dropdown-link">
-                          <el-image :src="loginUser.avatar"/>
-                          <span class="username">{{ loginUser.nickname }}</span>
+                          <!-- <el-image :src="loginUser.avatar"/> -->
+                          <!-- <span class="username">{{ loginUser.nickname }}</span> -->
+                          <span class="username">账户设置</span>
                           <el-icon><ArrowDown/></el-icon>
                         </span>
             <template #dropdown>
@@ -67,13 +68,13 @@
                   <span>注销</span>
                 </el-dropdown-item>
 
-                <el-dropdown-item>
+                <!-- <el-dropdown-item>
                   <i class="iconfont icon-github"></i>
                   <span>
                     powered by
                     <el-link type="primary" href="https://github.com/yangjian102621/chatgpt-plus" target="_blank">chatgpt-plus-v3</el-link>
                  </span>
-                </el-dropdown-item>
+                </el-dropdown-item> -->
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -82,7 +83,7 @@
       <el-main v-loading="loading" element-loading-background="rgba(122, 122, 122, 0.3)">
         <div class="chat-head">
           <div class="chat-config">
-            <!--            <span class="role-select-label">聊天角色：</span>-->
+            <!-- <span class="role-select-label">聊天角色：</span>
             <el-select v-model="roleId" filterable placeholder="角色" class="role-select" @change="_newChat">
               <el-option
                   v-for="item in roles"
@@ -95,7 +96,7 @@
                   <span>{{ item.name }}</span>
                 </div>
               </el-option>
-            </el-select>
+            </el-select> -->
 
             <el-select v-model="modelID" placeholder="模型" @change="_newChat">
               <el-option
@@ -123,7 +124,7 @@
               <span>导出会话</span>
             </el-button>
 
-            <el-tooltip class="box-item"
+            <!-- <el-tooltip class="box-item"
                         effect="dark"
                         content="部署文档"
                         placement="bottom">
@@ -132,9 +133,9 @@
                   <i class="iconfont icon-book"></i>
                 </el-button>
               </a>
-            </el-tooltip>
+            </el-tooltip> -->
 
-            <el-tooltip class="box-item"
+            <!-- <el-tooltip class="box-item"
                         effect="dark"
                         content="项目源码"
                         placement="bottom">
@@ -143,7 +144,7 @@
                   <i class="iconfont icon-github"></i>
                 </el-button>
               </a>
-            </el-tooltip>
+            </el-tooltip> -->
           </div>
         </div>
 

@@ -157,7 +157,8 @@ const platforms = ref([
   {
     name: "【清华智普】ChatGLM",
     value: "ChatGLM",
-    api_url: "https://open.bigmodel.cn/api/paas/v3/model-api/{model}/sse-invoke"
+    // api_url: "https://open.bigmodel.cn/api/paas/v3/model-api/{model}/sse-invoke"
+    api_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
   },
   {
     name: "【百度】文心一言",

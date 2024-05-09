@@ -205,6 +205,7 @@ func (s *Service) Txt2Img(task types.SdTask) error {
 
 // 执行任务
 func (s *Service) checkTaskProgress() (error, *TaskProgressResp) {
+	fmt.Println("s.config.ApiURL====" + s.config.ApiURL)
 	apiURL := fmt.Sprintf("%s/sdapi/v1/progress?skip_current_image=false", s.config.ApiURL)
 	var res TaskProgressResp
 	response, err := s.httpClient.R().SetSuccessResult(&res).Get(apiURL)

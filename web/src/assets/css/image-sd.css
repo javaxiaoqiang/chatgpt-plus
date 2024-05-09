@@ -26,7 +26,157 @@
   height: 0;
   background-color: transparent;
 }
+/* 这里开始提款 */
 .page-sd .inner .sd-box .sd-params {
+  margin-top: 10px;
+  overflow: auto;
+}
+.page-sd .inner .sd-box .sd-params .param-line {
+  padding: 0 10px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .el-icon {
+  position: relative;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content {
+  background-color: #383838;
+  border-radius: 5px;
+  padding: 8px 14px;
+  display: flex;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content:hover {
+  background-color: #585858;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .icon {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 5px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape {
+  width: 16px;
+  height: 16px;
+  margin-bottom: 5px;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size9-16 {
+  width: 9px;
+  height: 16px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size16-9 {
+  height: 9px;
+  width: 16px;
+  position: relative;
+  margin: 4px 0 7px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size3-4 {
+  width: 12px;
+  height: 16px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size4-3 {
+  height: 12px;
+  width: 16px;
+  position: relative;
+  margin: 4px 0 4px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size2-3 {
+  width: 11px;
+  height: 16px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size3-2 {
+  height: 11px;
+  width: 16px;
+  position: relative;
+  margin: 4px 0 5px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size1-2 {
+  width: 8px;
+  height: 16px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content .shape.size2-1 {
+  height: 8px;
+  width: 16px;
+  position: relative;
+  margin: 4px 0 8px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content.active {
+  color: #47fff1;
+  background-color: #585858;
+}
+.page-sd .inner .sd-box .sd-params .param-line .grid-content.active .shape {
+  border: 1px solid #47fff1;
+}
+.page-sd .inner .sd-box .sd-params .param-line .model {
+  background-color: #383838;
+  border: 1px solid #454545;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  cursor: pointer;
+}
+.page-sd .inner .sd-box .sd-params .param-line .model:hover {
+  background-color: #585858;
+}
+.page-sd .inner .sd-box .sd-params .param-line .model .el-image {
+  height: 60px;
+  width: 100%;
+}
+.page-sd .inner .sd-box .sd-params .param-line .model .text {
+  margin-top: 6px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .model.active {
+  color: #47fff1;
+  background-color: #585858;
+  border: 1px solid #47fff1;
+}
+.page-sd .inner .sd-box .sd-params .param-line .form-item-inner {
+  display: flex;
+  align-items: center;
+}
+.page-sd .inner .sd-box .sd-params .param-line .form-item-inner .el-select {
+  --el-select-input-focus-border-color: #47fff1;
+  --el-input-focus-border-color: #47fff1;
+}
+.page-sd .inner .sd-box .sd-params .param-line .form-item-inner .el-input__wrapper {
+  background: #383838;
+}
+.page-sd .inner .sd-box .sd-params .param-line .form-item-inner .el-input__inner {
+  color: #fff;
+}
+.page-sd .inner .sd-box .sd-params .param-line .form-item-inner .el-icon {
+  margin-left: 10px;
+}
+.page-sd .inner .sd-box .sd-params .param-line .img-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  transition: var(--el-transition-duration-fast);
+}
+.page-sd .inner .sd-box .sd-params .param-line .img-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+.page-sd .inner .sd-box .sd-params .param-line .img-uploader .el-upload .el-icon.uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 100%;
+  height: 120px;
+  text-align: center;
+}
+.page-sd .inner .sd-box .sd-params .param-line.pt {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* .page-sd .inner .sd-box .sd-params {
   margin-top: 10px;
   overflow: auto;
 }
@@ -58,7 +208,7 @@
 }
 .page-sd .inner .sd-box .sd-params .text-info .el-tag {
   margin-right: 10px;
-}
+} */
 .page-sd .inner .sd-box .submit-btn {
   padding: 10px 15px 0 15px;
   text-align: center;
@@ -364,7 +514,7 @@
 .page-sd .el-overlay-dialog .el-dialog .el-dialog__body .el-row .task-info .copy-params .el-button {
   width: 100%;
 }
-.page-sd .mj-list-item-prompt .el-icon {
+.page-sd .sd-list-item-prompt .el-icon {
   margin-left: 10px;
   cursor: pointer;
   position: relative;

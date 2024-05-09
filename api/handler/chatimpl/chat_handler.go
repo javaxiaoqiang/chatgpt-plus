@@ -221,7 +221,11 @@ func (h *ChatHandler) sendMessage(ctx context.Context, session *types.ChatSessio
 		Stream: true,
 	}
 	switch session.Model.Platform {
-	case types.Azure, types.ChatGLM, types.Baidu, types.XunFei:
+	case types.Azure, types.Baidu, types.XunFei:
+		req.Temperature = session.Model.Temperature
+		req.MaxTokens = session.Model.MaxTokens
+		break
+	case types.ChatGLM:
 		req.Temperature = session.Model.Temperature
 		req.MaxTokens = session.Model.MaxTokens
 		break
@@ -436,9 +440,11 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 		apiURL = strings.Replace(apiKey.ApiURL, "{model}", md, 1)
 		break
 	case types.ChatGLM:
-		apiURL = strings.Replace(apiKey.ApiURL, "{model}", req.Model, 1)
-		req.Prompt = req.Messages // 使用 prompt 字段替代 message 字段
-		req.Messages = nil
+		//apiURL = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+		apiURL = apiKey.ApiURL
+		//apiURL = strings.Replace(apiKey.ApiURL, "{model}", req.Model, 1)
+		//req.Prompt = req.Messages // 使用 prompt 字段替代 message 字段
+		//req.Messages = nil
 		break
 	case types.Baidu:
 		apiURL = strings.Replace(apiKey.ApiURL, "{model}", req.Model, 1)
@@ -467,6 +473,7 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 	// 创建 HttpClient 请求对象
 	var client *http.Client
 	requestBody, err := json.Marshal(req)
+
 	if err != nil {
 		return nil, err
 	}
@@ -494,11 +501,13 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 		request.Header.Set("api-key", apiKey.Value)
 		break
 	case types.ChatGLM:
-		token, err := h.getChatGLMToken(apiKey.Value)
+		token := apiKey.Value
+		//token, err := h.getChatGLMToken(apiKey.Value)
 		if err != nil {
 			return nil, err
 		}
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+		//fmt.Println(request)
 		break
 	case types.Baidu:
 		request.RequestURI = ""
@@ -510,6 +519,7 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 		request.Header.Set("X-DashScope-SSE", "enable")
 		break
 	}
+	//fmt.Println(request.Body)
 	return client.Do(request)
 }
 

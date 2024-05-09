@@ -7,21 +7,38 @@
 
           <div class="sd-params" :style="{ height: mjBoxHeight + 'px' }">
             <el-form :model="params" label-width="80px" label-position="left">
+
+              <div class="param-line pt">
+                <span>模型选择：</span>
+                <el-tooltip effect="light" content="MJ: 偏真实通用模型 <br/>NIJI: 偏动漫风格、适用于二次元模型" raw-content
+                  placement="right">
+                  <el-icon>
+                    <InfoFilled />
+                  </el-icon>
+                </el-tooltip>
+              </div>
+
+              <div class="param-line pt">
+                <el-row :gutter="10">
+                  <el-col :span="12" v-for="item in models" :key="item.value">
+                    <div :class="item.value === params.model ? 'model active' : 'model'" @click="changeModel(item)">
+                      <el-image :src="item.img" fit="cover"></el-image>
+                      <div class="text">{{ item.text }}</div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+
               <div class="param-line" style="padding-top: 10px">
                 <el-form-item label="采样方法">
                   <template #default>
                     <div class="form-item-inner">
                       <el-select v-model="params.sampler" size="small">
-                        <el-option v-for="item in samplers" :label="item" :value="item" :key="item"/>
+                        <el-option v-for="item in samplers" :label="item" :value="item" :key="item" />
                       </el-select>
-                      <el-tooltip
-                          effect="light"
-                          content="出图效果比较好的一般是 Euler 和 DPM 系列算法"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-tooltip effect="light" content="出图效果比较好的一般是 Euler 和 DPM 系列算法" raw-content placement="right">
                         <el-icon>
-                          <InfoFilled/>
+                          <InfoFilled />
                         </el-icon>
                       </el-tooltip>
                     </div>
@@ -35,10 +52,10 @@
                     <div class="form-item-inner">
                       <el-row :gutter="20">
                         <el-col :span="12">
-                          <el-input v-model.number="params.width" size="small" placeholder="图片宽度"/>
+                          <el-input v-model.number="params.width" size="small" placeholder="图片宽度" />
                         </el-col>
                         <el-col :span="12">
-                          <el-input v-model.number="params.height" size="small" placeholder="图片高度"/>
+                          <el-input v-model.number="params.height" size="small" placeholder="图片高度" />
                         </el-col>
                       </el-row>
                     </div>
@@ -50,15 +67,10 @@
                 <el-form-item label="迭代步数">
                   <template #default>
                     <div class="form-item-inner">
-                      <el-input v-model.number="params.steps" size="small"/>
-                      <el-tooltip
-                          effect="light"
-                          content="值越大则代表细节越多，同时也意味着出图速度越慢"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-input v-model.number="params.steps" size="small" />
+                      <el-tooltip effect="light" content="值越大则代表细节越多，同时也意味着出图速度越慢" raw-content placement="right">
                         <el-icon>
-                          <InfoFilled/>
+                          <InfoFilled />
                         </el-icon>
                       </el-tooltip>
                     </div>
@@ -70,15 +82,11 @@
                 <el-form-item label="引导系数">
                   <template #default>
                     <div class="form-item-inner">
-                      <el-input v-model.number="params.cfg_scale" size="small"/>
-                      <el-tooltip
-                          effect="light"
-                          content="提示词引导系数，图像在多大程度上服从提示词<br/> 较低值会产生更有创意的结果"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-input v-model.number="params.cfg_scale" size="small" />
+                      <el-tooltip effect="light" content="提示词引导系数，图像在多大程度上服从提示词<br/> 较低值会产生更有创意的结果" raw-content
+                        placement="right">
                         <el-icon>
-                          <InfoFilled/>
+                          <InfoFilled />
                         </el-icon>
                       </el-tooltip>
                     </div>
@@ -90,26 +98,17 @@
                 <el-form-item label="随机因子">
                   <template #default>
                     <div class="form-item-inner">
-                      <el-input v-model.number="params.seed" size="small"/>
-                      <el-tooltip
-                          effect="light"
-                          content="随机数种子，相同的种子会得到相同的结果<br/> 设置为 -1 则每次随机生成种子"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-input v-model.number="params.seed" size="small" />
+                      <el-tooltip effect="light" content="随机数种子，相同的种子会得到相同的结果<br/> 设置为 -1 则每次随机生成种子" raw-content
+                        placement="right">
                         <el-icon>
-                          <InfoFilled/>
+                          <InfoFilled />
                         </el-icon>
                       </el-tooltip>
 
-                      <el-tooltip
-                          effect="light"
-                          content="使用随机数"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-tooltip effect="light" content="使用随机数" raw-content placement="right">
                         <el-icon @click="params.seed = -1">
-                          <Orange/>
+                          <Orange />
                         </el-icon>
                       </el-tooltip>
                     </div>
@@ -121,15 +120,11 @@
                 <el-form-item label="高清修复">
                   <template #default>
                     <div class="form-item-inner">
-                      <el-switch v-model="params.hd_fix" style="--el-switch-on-color: #47fff1;"/>
-                      <el-tooltip
-                          effect="light"
-                          content="先以较小的分辨率生成图像，接着方法图像<br />然后在不更改构图的情况下再修改细节"
-                          raw-content
-                          placement="right"
-                      >
+                      <el-switch v-model="params.hd_fix" style="--el-switch-on-color: #47fff1;" />
+                      <el-tooltip effect="light" content="先以较小的分辨率生成图像，接着方法图像<br />然后在不更改构图的情况下再修改细节" raw-content
+                        placement="right">
                         <el-icon style="margin-top: 6px">
-                          <InfoFilled/>
+                          <InfoFilled />
                         </el-icon>
                       </el-tooltip>
                     </div>
@@ -143,15 +138,11 @@
                     <template #default>
                       <div class="form-item-inner">
                         <el-slider v-model.number="params.hd_redraw_rate" :max="1" :step="0.1"
-                                   style="width: 180px;--el-slider-main-bg-color:#47fff1"/>
-                        <el-tooltip
-                            effect="light"
-                            content="决定算法对图像内容的影响程度<br />较大的值将得到越有创意的图像"
-                            raw-content
-                            placement="right"
-                        >
+                          style="width: 180px;--el-slider-main-bg-color:#47fff1" />
+                        <el-tooltip effect="light" content="决定算法对图像内容的影响程度<br />较大的值将得到越有创意的图像" raw-content
+                          placement="right">
                           <el-icon style="margin-top: 6px">
-                            <InfoFilled/>
+                            <InfoFilled />
                           </el-icon>
                         </el-tooltip>
                       </div>
@@ -164,16 +155,12 @@
                     <template #default>
                       <div class="form-item-inner">
                         <el-select v-model="params.hd_scale_alg" size="small">
-                          <el-option v-for="item in scaleAlg" :label="item" :value="item" :key="item"/>
+                          <el-option v-for="item in scaleAlg" :label="item" :value="item" :key="item" />
                         </el-select>
-                        <el-tooltip
-                            effect="light"
-                            content="高清修复放大算法，主流算法有Latent和ESRGAN_4x"
-                            raw-content
-                            placement="right"
-                        >
+                        <el-tooltip effect="light" content="高清修复放大算法，主流算法有Latent和ESRGAN_4x" raw-content
+                          placement="right">
                           <el-icon>
-                            <InfoFilled/>
+                            <InfoFilled />
                           </el-icon>
                         </el-tooltip>
                       </div>
@@ -185,15 +172,11 @@
                   <el-form-item label="放大倍数">
                     <template #default>
                       <div class="form-item-inner">
-                        <el-input v-model.number="params.hd_scale" size="small"/>
-                        <el-tooltip
-                            effect="light"
-                            content="随机数种子，相同的种子会得到相同的结果<br/> 设置为 -1 则每次随机生成种子"
-                            raw-content
-                            placement="right"
-                        >
+                        <el-input v-model.number="params.hd_scale" size="small" />
+                        <el-tooltip effect="light" content="随机数种子，相同的种子会得到相同的结果<br/> 设置为 -1 则每次随机生成种子" raw-content
+                          placement="right">
                           <el-icon>
-                            <InfoFilled/>
+                            <InfoFilled />
                           </el-icon>
                         </el-tooltip>
                       </div>
@@ -205,15 +188,10 @@
                   <el-form-item label="迭代步数">
                     <template #default>
                       <div class="form-item-inner">
-                        <el-input v-model.number="params.hd_steps" size="small"/>
-                        <el-tooltip
-                            effect="light"
-                            content="重绘迭代步数，如果设置为0，则设置跟原图相同的迭代步数"
-                            raw-content
-                            placement="right"
-                        >
+                        <el-input v-model.number="params.hd_steps" size="small" />
+                        <el-tooltip effect="light" content="重绘迭代步数，如果设置为0，则设置跟原图相同的迭代步数" raw-content placement="right">
                           <el-icon>
-                            <InfoFilled/>
+                            <InfoFilled />
                           </el-icon>
                         </el-tooltip>
                       </div>
@@ -223,34 +201,21 @@
               </div>
 
               <div class="param-line">
-                <el-input
-                    v-model="params.prompt"
-                    :autosize="{ minRows: 4, maxRows: 6 }"
-                    type="textarea"
-                    ref="promptRef"
-                    placeholder="请在此输入绘画提示词，系统会自动翻译中文提示词，高手请直接输入英文提示词"
-                />
+                <el-input v-model="params.prompt" :autosize="{ minRows: 4, maxRows: 6 }" type="textarea" ref="promptRef"
+                  placeholder="请在此输入绘画提示词，系统会自动翻译中文提示词，高手请直接输入英文提示词" />
               </div>
 
               <div class="param-line pt">
                 <span>反向提示词：</span>
-                <el-tooltip
-                    effect="light"
-                    content="不希望出现的元素，下面给了默认的起手式"
-                    placement="right"
-                >
+                <el-tooltip effect="light" content="不希望出现的元素，下面给了默认的起手式" placement="right">
                   <el-icon>
-                    <InfoFilled/>
+                    <InfoFilled />
                   </el-icon>
                 </el-tooltip>
               </div>
               <div class="param-line">
-                <el-input
-                    v-model="params.neg_prompt"
-                    :autosize="{ minRows: 4, maxRows: 6 }"
-                    type="textarea"
-                    placeholder="反向提示词"
-                />
+                <el-input v-model="params.neg_prompt" :autosize="{ minRows: 4, maxRows: 6 }" type="textarea"
+                  placeholder="反向提示词" />
               </div>
 
               <div class="text-info">
@@ -264,109 +229,125 @@
             <el-button color="#47fff1" :dark="false" round @click="generate">立即生成</el-button>
           </div>
         </div>
+
         <div class="task-list-box" @scrollend="handleScrollEnd">
           <div class="task-list-inner" :style="{ height: listBoxHeight + 'px' }">
-            <div class="job-list-box">
-              <h2>任务列表</h2>
-              <div class="running-job-list">
-                <ItemList :items="runningJobs" v-if="runningJobs.length > 0" :width="240">
-                  <template #default="scope">
-                    <div class="job-item">
-                      <div v-if="scope.item.progress > 0" class="job-item-inner">
-                        <el-image :src="scope.item['img_url']"
-                                  fit="cover"
-                                  loading="lazy">
-                          <template #placeholder>
-                            <div class="image-slot">
-                              正在加载图片
-                            </div>
-                          </template>
+            <div class="extra-params">
+              <el-form>
+                <el-tabs v-model="activeName" class="title-tabs" @tabChange="tabChange">
+                  <el-tab-pane label="文生图" name="txt2img">
+                    <div class="task-list-box" @scrollend="handleScrollEnd">
+                      <div class="task-list-inner" :style="{ height: listBoxHeight + 'px' }">
+                        <div class="job-list-box">
+                          <h2>任务列表</h2>
+                          <div class="running-job-list">
+                            <ItemList :items="runningJobs" v-if="runningJobs.length > 0" :width="240">
+                              <template #default="scope">
+                                <div class="job-item">
+                                  <div v-if="scope.item.progress > 0" class="job-item-inner">
+                                    <el-image :src="scope.item['img_url']" fit="cover" loading="lazy">
+                                      <template #placeholder>
+                                        <div class="image-slot">
+                                          正在加载图片
+                                        </div>
+                                      </template>
 
-                          <template #error>
-                            <div class="image-slot">
-                              <el-icon v-if="scope.item['img_url'] !== ''">
-                                <Picture/>
-                              </el-icon>
-                            </div>
-                          </template>
-                        </el-image>
+                                      <template #error>
+                                        <div class="image-slot">
+                                          <el-icon v-if="scope.item['img_url'] !== ''">
+                                            <Picture />
+                                          </el-icon>
+                                        </div>
+                                      </template>
+                                    </el-image>
 
-                        <div class="progress">
-                          <el-progress type="circle" :percentage="scope.item.progress" :width="100" color="#47fff1"/>
-                        </div>
-                      </div>
-                      <el-image fit="cover" v-else>
-                        <template #error>
-                          <div class="image-slot">
-                            <i class="iconfont icon-quick-start"></i>
-                            <span>任务正在排队中</span>
+                                    <div class="progress">
+                                      <el-progress type="circle" :percentage="scope.item.progress" :width="100"
+                                        color="#47fff1" />
+                                    </div>
+                                  </div>
+                                  <el-image fit="cover" v-else>
+                                    <template #error>
+                                      <div class="image-slot">
+                                        <i class="iconfont icon-quick-start"></i>
+                                        <span>任务正在排队中</span>
+                                      </div>
+                                    </template>
+                                  </el-image>
+                                </div>
+                              </template>
+                            </ItemList>
+                            <el-empty :image-size="100" v-else />
                           </div>
-                        </template>
-                      </el-image>
-                    </div>
-                  </template>
-                </ItemList>
-                <el-empty :image-size="100" v-else/>
-              </div>
-              <h2>创作记录</h2>
-              <div class="finish-job-list" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
-                <div v-if="finishedJobs.length > 0">
-                  <ItemList :items="finishedJobs" :width="240" :gap="16">
-                    <template #default="scope">
-                      <div class="job-item animate" @click="showTask(scope.item)">
-                        <el-image
-                            :src="scope.item['img_url']+'?imageView2/1/w/240/h/240/q/75'"
-                            fit="cover"
-                            loading="lazy">
-                          <template #placeholder>
-                            <div class="image-slot">
-                              正在加载图片
-                            </div>
-                          </template>
+                          <h2>创作记录</h2>
+                          <div class="finish-job-list" v-loading="loading"
+                            element-loading-background="rgba(0, 0, 0, 0.5)">
+                            <div v-if="finishedJobs.length > 0">
+                              <ItemList :items="finishedJobs" :width="240" :gap="16">
+                                <template #default="scope">
+                                  <div class="job-item animate" @click="showTask(scope.item)">
+                                    <el-image :src="scope.item['img_url'] + '?imageView2/1/w/240/h/240/q/75'"
+                                      fit="cover" loading="lazy">
+                                      <template #placeholder>
+                                        <div class="image-slot">
+                                          正在加载图片
+                                        </div>
+                                      </template>
 
-                          <template #error>
-                            <div class="image-slot">
-                              <el-icon>
-                                <Picture/>
-                              </el-icon>
-                            </div>
-                          </template>
-                        </el-image>
+                                      <template #error>
+                                        <div class="image-slot">
+                                          <el-icon>
+                                            <Picture />
+                                          </el-icon>
+                                        </div>
+                                      </template>
+                                    </el-image>
 
-                        <div class="remove">
-                          <el-button type="danger" :icon="Delete" @click="removeImage($event,scope.item)" circle/>
-                          <el-button type="warning" v-if="scope.item.publish"
-                                     @click="publishImage($event,scope.item, false)"
-                                     circle>
-                            <i class="iconfont icon-cancel-share"></i>
-                          </el-button>
-                          <el-button type="success" v-else @click="publishImage($event,scope.item, true)" circle>
-                            <i class="iconfont icon-share-bold"></i>
-                          </el-button>
+                                    <div class="remove">
+                                      <el-button type="danger" :icon="Delete" @click="removeImage($event, scope.item)"
+                                        circle />
+                                      <el-button type="warning" v-if="scope.item.publish"
+                                        @click="publishImage($event, scope.item, false)" circle>
+                                        <i class="iconfont icon-cancel-share"></i>
+                                      </el-button>
+                                      <el-button type="success" v-else @click="publishImage($event, scope.item, true)"
+                                        circle>
+                                        <i class="iconfont icon-share-bold"></i>
+                                      </el-button>
+                                    </div>
+                                  </div>
+                                </template>
+                              </ItemList>
+
+                              <div class="no-more-data" v-if="isOver">
+                                <span>没有更多数据了</span>
+                                <i class="iconfont icon-face"></i>
+                              </div>
+                            </div>
+                            <el-empty :image-size="100" v-else />
+                          </div> <!-- end finish job list-->
                         </div>
                       </div>
-                    </template>
-                  </ItemList>
 
-                  <div class="no-more-data" v-if="isOver">
-                    <span>没有更多数据了</span>
-                    <i class="iconfont icon-face"></i>
-                  </div>
-                </div>
-                <el-empty :image-size="100" v-else/>
-              </div> <!-- end finish job list-->
+                    </div><!-- end task list box -->
+                  </el-tab-pane>
+                  <el-tab-pane label="图生图" name="img2img">
+
+                  </el-tab-pane>
+                </el-tabs>
+              </el-form>
             </div>
           </div>
+        </div>
 
-        </div><!-- end task list box -->
       </div>
 
       <!-- 任务详情弹框 -->
       <el-dialog v-model="showTaskDialog" title="绘画任务详情" :fullscreen="true">
         <el-row :gutter="20">
           <el-col :span="16">
-            <div class="img-container" :style="{maxHeight: fullImgHeight+'px'}">
-              <el-image :src="item['img_url']" fit="contain"/>
+            <div class="img-container" :style="{ maxHeight: fullImgHeight + 'px' }">
+              <el-image :src="item['img_url']" fit="contain" />
             </div>
           </el-col>
           <el-col :span="8">
@@ -378,7 +359,7 @@
                 <div class="prompt">
                   <span>{{ item.prompt }}</span>
                   <el-icon class="copy-prompt-sd" :data-clipboard-text="item.prompt">
-                    <DocumentCopy/>
+                    <DocumentCopy />
                   </el-icon>
                 </div>
 
@@ -391,7 +372,7 @@
                 <div class="prompt">
                   <span>{{ item.params.neg_prompt }}</span>
                   <el-icon class="copy-prompt-sd" :data-clipboard-text="item.params.neg_prompt">
-                    <DocumentCopy/>
+                    <DocumentCopy />
                   </el-icon>
                 </div>
               </div>
@@ -475,21 +456,24 @@
       </el-dialog>
     </div>
 
-    <login-dialog :show="showLoginDialog" @hide="showLoginDialog =  false" @success="initData"/>
+    <login-dialog :show="showLoginDialog" @hide="showLoginDialog = false" @success="initData" />
   </div>
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from "vue"
-import {Delete, DocumentCopy, InfoFilled, Orange, Picture} from "@element-plus/icons-vue";
-import {httpGet, httpPost} from "@/utils/http";
-import {ElMessage, ElMessageBox, ElNotification} from "element-plus";
+import { onMounted, onUnmounted, ref } from "vue"
+import { Delete, DocumentCopy, InfoFilled, Orange, Picture } from "@element-plus/icons-vue";
+import { httpGet, httpPost } from "@/utils/http";
+import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
 import ItemList from "@/components/ItemList.vue";
 import Clipboard from "clipboard";
-import {checkSession} from "@/action/session";
-import {useRouter} from "vue-router";
-import {getSessionId} from "@/store/session";
+import { checkSession } from "@/action/session";
+import { useRouter } from "vue-router";
+import { getSessionId } from "@/store/session";
 import LoginDialog from "@/components/LoginDialog.vue";
+
+import {copyObj, removeArrayItem} from "@/utils/libs";
+
 
 const listBoxHeight = ref(window.innerHeight - 40)
 const mjBoxHeight = ref(window.innerHeight - 150)
@@ -498,6 +482,7 @@ const showTaskDialog = ref(false)
 const item = ref({})
 const showLoginDialog = ref(false)
 const isLogin = ref(false)
+const activeName = ref('txt2img')
 
 window.onresize = () => {
   listBoxHeight.value = window.innerHeight - 40
@@ -505,7 +490,15 @@ window.onresize = () => {
 }
 const samplers = ["Euler a", "DPM++ 2S a Karras", "DPM++ 2M Karras", "DPM++ SDE Karras", "DPM++ 2M SDE Karras"]
 const scaleAlg = ["Latent", "ESRGAN_4x", "R-ESRGAN 4x+", "SwinIR_4x", "LDSR"]
-const params = ref({
+
+const models = [
+  { text: "写实模式MJ-6.0", value: " --v 6", img: "/images/mj/mj-v6.png" },
+  { text: "优质模式MJ-5.2", value: " --v 5.2", img: "/images/mj/mj-v5.2.png" },
+  { text: "优质模式MJ-5.1", value: " --v 5.1", img: "/images/mj/mj-v5.1.jpg" },
+]
+
+const initParams = {
+  model: models[0].value,
   width: 1024,
   height: 1024,
   sampler: samplers[0],
@@ -519,7 +512,8 @@ const params = ref({
   hd_steps: 0,
   prompt: "",
   neg_prompt: "nsfw, paintings,low quality,easynegative,ng_deepnegative ,lowres,bad anatomy,bad hands,bad feet",
-})
+}
+const params = ref(copyObj(initParams))
 
 const runningJobs = ref([])
 const finishedJobs = ref([])
@@ -550,7 +544,7 @@ const connect = () => {
     clearTimeout(heartbeatHandle.value)
     new Promise((resolve, reject) => {
       if (socket.value !== null) {
-        socket.value.send(JSON.stringify({type: "heartbeat", content: "ping"}))
+        socket.value.send(JSON.stringify({ type: "heartbeat", content: "ping" }))
       }
       resolve("success")
     }).then(() => {
@@ -693,9 +687,11 @@ const generate = () => {
     params.value.seed = -1
   }
   params.value.session_id = getSessionId()
+  console.log(params)
   httpPost("/api/sd/image", params.value).then(() => {
     ElMessage.success("绘画任务推送成功，请耐心等待任务执行...")
     power.value -= sdPower.value
+    params.value = copyObj(initParams)
   }).catch(e => {
     ElMessage.error("任务推送失败：" + e.message)
   })
@@ -714,15 +710,15 @@ const copyParams = (row) => {
 const removeImage = (event, item) => {
   event.stopPropagation()
   ElMessageBox.confirm(
-      '此操作将会删除任务和图片，继续操作码?',
-      '删除提示',
-      {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
+    '此操作将会删除任务和图片，继续操作码?',
+    '删除提示',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
   ).then(() => {
-    httpPost("/api/sd/remove", {id: item.id, img_url: item.img_url, user_id: userId.value}).then(() => {
+    httpPost("/api/sd/remove", { id: item.id, img_url: item.img_url, user_id: userId.value }).then(() => {
       ElMessage.success("任务删除成功")
     }).catch(e => {
       ElMessage.error("任务删除失败：" + e.message)
@@ -738,7 +734,7 @@ const publishImage = (event, item, action) => {
   if (action === false) {
     text = "取消发布"
   }
-  httpPost("/api/sd/publish", {id: item.id, action: action}).then(() => {
+  httpPost("/api/sd/publish", { id: item.id, action: action }).then(() => {
     ElMessage.success(text + "成功")
     item.publish = action
   }).catch(e => {
@@ -746,9 +742,49 @@ const publishImage = (event, item, action) => {
   })
 }
 
+// 切换菜单
+const tabChange = (tab) => {
+  if (tab === "txt2img" || tab === "img2img" || tab === "cref") {
+    params.value.task_type = "image"
+  } else {
+    params.value.task_type = tab
+  }
+}
+
+// 切换模型
+const changeModel = (item) => {
+  params.value.model = item.value
+}
+
 </script>
 
 <style lang="stylus">
 @import "@/assets/css/image-sd.styl"
 @import "@/assets/css/custom-scroll.styl"
+.model {
+  background-color: #383838;
+  border: 1px solid #454545;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  cursor: pointer;
+}
+.model:hover {
+  background-color: #585858;
+}
+.model .el-image {
+  height: 60px;
+  width: 100%;
+}
+.model .text {
+  margin-top: 6px;
+}
+.model.active {
+  color: #47fff1;
+  background-color: #585858;
+  border: 1px solid #47fff1;
+}
 </style>
