@@ -83,7 +83,7 @@
       <el-main v-loading="loading" element-loading-background="rgba(122, 122, 122, 0.3)">
         <div class="chat-head">
           <div class="chat-config">
-            <!-- <span class="role-select-label">聊天角色：</span>
+            <span class="role-select-label">聊天角色：</span>
             <el-select v-model="roleId" filterable placeholder="角色" class="role-select" @change="_newChat">
               <el-option
                   v-for="item in roles"
@@ -96,7 +96,7 @@
                   <span>{{ item.name }}</span>
                 </div>
               </el-option>
-            </el-select> -->
+            </el-select>
 
             <el-select v-model="modelID" placeholder="模型" @change="_newChat">
               <el-option
@@ -226,7 +226,7 @@
       </el-main>
     </el-container>
 
-    <el-dialog
+    <!-- <el-dialog
         v-model="showNotice"
         :show-close="true"
         custom-class="notice-dialog"
@@ -241,7 +241,7 @@
           <el-button @click="notShow" type="success" plain>我知道了，不再显示</el-button>
         </p>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
     <config-dialog v-if="isLogin" :show="showConfigDialog" :models="models" @hide="showConfigDialog = false"/>
 

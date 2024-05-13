@@ -11,10 +11,10 @@
               <user-profile/>
 
               <el-row class="user-opt" :gutter="20">
-                <el-col :span="12">
-                  <el-button type="primary" @click="showPasswordDialog = true">修改密码</el-button>
+                <el-col :span="24">
+                  <el-button type="primary" round @click="showPasswordDialog = true">修改密码</el-button>
                 </el-col>
-                <el-col :span="12">
+                <!-- <el-col :span="12">
                   <el-button type="primary" @click="showBindMobileDialog = true">更改账号</el-button>
                 </el-col>
                 <el-col :span="12">
@@ -23,7 +23,7 @@
                 <el-col :span="12">
                   <el-button type="primary" v-if="enableReward" @click="showRewardVerifyDialog = true">众筹核销
                   </el-button>
-                </el-col>
+                </el-col> -->
 
                 <el-col :span="24" style="padding-top: 30px" v-if="isLogin">
                   <el-button type="danger" round @click="logout">退出登录</el-button>

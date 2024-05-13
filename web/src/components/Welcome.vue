@@ -1,9 +1,11 @@
 <template>
   <div class="welcome">
     <div class="container">
-      <h1 class="title">{{ title }}-{{ version }}</h1>
-
+      <!-- <h1 class="title">{{ title }}-{{ version }}</h1> -->
+      <h1 class="title">{{ title }}</h1>
       <el-row :gutter="20">
+        <el-col :span="8">
+        </el-col>
         <el-col :span="8">
           <div class="grid-content">
             <div class="item-title">
@@ -19,6 +21,8 @@
           </div>
         </el-col>
         <el-col :span="8">
+        </el-col>
+        <!-- <el-col :span="8">
           <div class="grid-content">
             <div class="item-title">
               <div><i class="iconfont icon-plugin"></i></div>
@@ -48,7 +52,7 @@
               </ul>
             </div>
           </div>
-        </el-col>
+        </el-col> -->
       </el-row>
     </div>
   </div>
